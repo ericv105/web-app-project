@@ -1,4 +1,8 @@
 from flask import Flask
+import pymongo
+
+client = pymongo.MongoClient('mongo')
+db = client.test_database
 
 def create_app():
     app = Flask(__name__)

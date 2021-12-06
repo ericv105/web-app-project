@@ -1,9 +1,22 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect
+from website import db
+import bcrypt
 
+collection = db.users
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = collection.find_one({'username': username})
+        if user and bcrypt.checkpw(password.encode(), user['password']):
+            flash('Logged in successfully!', category='success')
+            return redirect('/')
+        else:
+            flash('Incorrect username or password.', category='error')
+
     return render_template('login.html')
 
 @auth.route('/logout')
@@ -26,5 +39,6 @@ def register():
             flash('Passwords must match.', category='error')
         else:
             flash('Successfully registered!', category='success')
+            collection.insert_one({'username': username, 'password': bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())})
         
     return render_template('register.html')
