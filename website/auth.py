@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import current_app, Blueprint, render_template, request, flash, redirect
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User
 import bcrypt
@@ -65,7 +65,7 @@ def register():
             password = bcrypt.hashpw(
                 password.encode(), bcrypt.gensalt()).decode()
             new_user = User(username=username,
-                            password=password, online=False).save()
+                            password=password, online=False, avatar_path="uploads/default.png").save()
             flash('Successfully registered!', category='success')
             return redirect('/login')
     return render_template('register.html', user=current_user)
