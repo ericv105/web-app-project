@@ -30,4 +30,18 @@ def home():
 @views.route('/profile',  methods=['GET', 'POST'])
 @login_required
 def profile():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part', category='error')
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file', category='error')
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            
+            current_user.avatar_path = file_path
+            current_user.save()
+
+            file.save(os.path.join(current_app.root_path, file_path))
     return render_template('profile.html', user=current_user)
