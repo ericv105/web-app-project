@@ -13,6 +13,9 @@ flask_login is used to handle the user session and access control.
 
 auth = Blueprint('auth', __name__)
 
+current_users = {}
+current_messages = {}
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -25,6 +28,7 @@ def login():
             # logs in the user and redirects to the home page
             # this updates current user accordingly
             login_user(user)
+            current_users[username] = username
             flash('Logged in successfully!', category='success')
             return redirect('/')
         else:
@@ -36,6 +40,7 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    del current_users[current_user.username]
     logout_user()
     flash('Logged out successfully!', category='success')
     return redirect('/login')
