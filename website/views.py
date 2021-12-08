@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app, send_from_directory
+# from werkzeug.utils import send_from_directory
 from flask_login import login_required, current_user
 from .models import User
 
@@ -17,3 +18,7 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     return render_template('home.html', user=current_user)
+
+@views.route('/static/uploads/<name>')
+def download_file(name):
+    return send_from_directory(directory=current_app.config["UPLOAD_FOLDER"], path=name)

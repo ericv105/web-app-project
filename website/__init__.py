@@ -17,13 +17,16 @@ def create_app():
     app.config['SECRET_KEY'] = 'changethiskeylater'
     app.config['MONGODB_SETTINGS'] = {
         'host': 'mongodb://mongo:27017/test_database'}
+    app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
     global mongo
     mongo = MongoEngine(app)
 
     from .views import views
     from .auth import auth
+    from .uploads import uploads
 
+    app.register_blueprint(uploads, url_prefix='/')
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 

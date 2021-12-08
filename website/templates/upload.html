@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Image Upload{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>Upload Image</h1>
+      
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+      
+        <div class="form-group">
+          <label>Select image</label>
+          <div class="file-input">
+            <input type="file" class="file-input" name="image" id="image" accept=".png,.jpeg,.jpg">
+            <label for="image" class="file-input">Select image...</label>
+          </div>
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
