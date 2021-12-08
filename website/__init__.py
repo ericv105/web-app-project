@@ -18,6 +18,7 @@ def create_app():
     app.config['MONGODB_SETTINGS'] = {
         'host': 'mongodb://mongo:27017/test_database'}
     app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+    app.config['AVATAR_FOLDER'] = 'static/avatars/'
 
     global mongo
     mongo = MongoEngine(app)
@@ -25,10 +26,12 @@ def create_app():
     from .views import views
     from .auth import auth
     from .uploads import uploads
+    from .message import message
 
     app.register_blueprint(uploads, url_prefix='/')
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(message, url_prefix='/')
 
     from .models import User
 

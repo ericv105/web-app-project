@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h1>Profile</h1>
+<div class="card" style="width: 18rem; justify-content: center;">
+    <img class="image" src="{{ user.avatar_path }}" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{ user.username }}</h5>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Change avatar</label>
+            <input type="file" name="file" id="file", accept="image/*">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</div>
+{% endblock %}
