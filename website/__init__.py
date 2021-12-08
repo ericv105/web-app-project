@@ -17,6 +17,8 @@ def create_app():
     app.config['SECRET_KEY'] = 'changethiskeylater'
     app.config['MONGODB_SETTINGS'] = {
         'host': 'mongodb://mongo:27017/test_database'}
+    app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+    app.config['AVATAR_FOLDER'] = 'static/avatars/'
 
     global mongo
     mongo = MongoEngine(app)

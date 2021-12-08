@@ -21,3 +21,4 @@ class User(mongo.Document, UserMixin):
     username = mongo.StringField(max_length=50)
     password = mongo.StringField(max_length=70)
     online = mongo.BooleanField(default=False)
+    avatar_path = mongo.StringField(max_length=200)
