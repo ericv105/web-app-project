@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+        socket.send('hello dude');
+    });
+
+    socket.on('message', function(msg) {
+        console.log('received msg: ' + msg);
+        msg = JSON.parse(msg);
+        action = msg.action
+        image_uid = msg.filename
+        votes = msg.votes.toString();
+        if (action == "upvote") {
+            let image = document.getElementById(image_uid+"_votes");
+            image.innerHTML = "Votes: " + votes;
+        }
+        else if (action == "downvote") {
+            let image = document.getElementById(image_uid+"_votes");
+            image.innerHTML = "Votes: " + votes;
+        }
+    })
+
+    function sendUpVote(filename) {
+        console.log("upvoted", filename);
+        socket.emit('upvote', JSON.stringify({"filename": filename}));
+    }
+    function sendDownVote(filename) {
+        console.log("downvoted");
+        socket.emit('downvote', JSON.stringify({"filename": filename}));
+    }
+</script>
+
+<h1>Home Page</h1>
+
+<div class="flexbox" style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 10px;">
+    {% for upload in uploads %}
+        <div class="card" style="width: 18rem; justify-content: center; margin: 50px 0px; background: lightslategray;">
+            <a href="{{ upload.file_path }}" target="_blank" style="text-align: center;">
+                <img class="image" id="{{ upload.filename }}" src="{{ upload.file_path }}" style="height: 300px; overflow: hidden; object-fit: cover; width: 100%;">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title" id="{{ upload.filename }}_votes">Votes: {{ upload.votes }}</h5>
+                <button onclick="sendUpVote('{{ upload.filename }}')">👍Upvote</button>
+                <button onclick="sendDownVote('{{ upload.filename }}')">👎Downvote</button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

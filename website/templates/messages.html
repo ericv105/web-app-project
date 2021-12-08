@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Direct Messages{% endblock %}
+
+{% block content %}
+
+{{INITIAL}}
+{{MESSAGES}}
+
+
+<form method="POST">
+
+    <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="reply"
+          name="reply"
+          placeholder="Enter reply"
+        />
+    </div>
+    <button type="submit" class="btn btn-primary">Reply</button>
+</form>
+{% endblock %}
