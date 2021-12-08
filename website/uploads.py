@@ -6,6 +6,7 @@ from flask_login import login_required, current_user
 from .models import User
 import os
 import sys
+from .models import Upload
 
 """
 This file requires users to be logged in before they can send an image to the server.
@@ -27,6 +28,7 @@ Example data structure of image uploaded
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+uploads = Blueprint('uploads', __name__)
 
 
 def validate_file(filename):
@@ -35,13 +37,12 @@ def validate_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def rc(len):
+    # Generate a random string of given length
     return os.urandom(len).hex()[len:]
 
 def generateUID():
+    # Generate a UID
     return "{}-{}-{}".format(rc(5),rc(8),rc(5))
-
-uploads = Blueprint('uploads', __name__)
-
 
 
 # login_required decorator is used to prevent unauthenticated users from accessing the home page.
@@ -63,8 +64,13 @@ def upload():
                 filename = generateUID() + "." + ext
                 file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
                 image.save(os.path.join(current_app.root_path, file_path))
-                print("Saved image: {}".format(filename), file=sys.stderr)
+                new_upload = Upload(
+                    filename=filename,
+                    votes=0,
+                    file_path=file_path
+                ).save()
+                # print("Saved image: {}".format(filename), file=sys.stderr)
+                print("Saved image: {}".format(filename))
             return redirect(url_for('views.download_file', name=filename))
-                # return redirect(request.url)
 
     return render_template('upload.html', user=current_user)

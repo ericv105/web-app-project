@@ -21,3 +21,9 @@ class User(mongo.Document, UserMixin):
     username = mongo.StringField(max_length=50)
     password = mongo.StringField(max_length=70)
     online = mongo.BooleanField(default=False)
+
+# the filename contains the filename only not the path for the image
+class Upload(mongo.Document):
+    filename = mongo.StringField(max_length=100)
+    votes = mongo.IntField(min_value=-100000, max_value=100000)
+    file_path = mongo.StringField(max_length=300)

@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, current_app, send_from_directory
 # from werkzeug.utils import send_from_directory
 from flask_login import login_required, current_user
-from .models import User
+from .models import User, Upload
+import sys
 
 """This file contains non authentication routes for the website.
 The 'request' object is used to access the data sent by the user.
@@ -17,7 +18,8 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
+    uploads = Upload.objects()
+    return render_template('home.html', user=current_user, uploads=uploads)
 
 @views.route('/static/uploads/<name>')
 def download_file(name):
