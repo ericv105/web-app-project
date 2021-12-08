@@ -71,6 +71,7 @@ def upload():
                 ).save()
                 # print("Saved image: {}".format(filename), file=sys.stderr)
                 print("Saved image: {}".format(filename))
-            return redirect(url_for('views.download_file', name=filename))
+            return redirect(url_for('views.home'))
+            # return redirect(url_for('views.download_file', name=filename))
 
     return render_template('upload.html', user=current_user)
