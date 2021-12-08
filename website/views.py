@@ -1,9 +1,11 @@
-from flask import current_app, Blueprint, render_template, request, redirect, flash
+
+from flask import current_app, Blueprint, render_template, request, redirect, flash, send_from_directory
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from .models import User
+from .models import User, Upload
 from . import mongo
 import os
+import sys
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -25,8 +27,13 @@ def allowed_file(filename):
 @views.route('/')
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
-
+    uploads = Upload.objects()
+    return render_template('home.html', user=current_user, uploads=uploads)
+  
+@views.route('/static/uploads/<name>')
+def download_file(name):
+    return send_from_directory(directory=current_app.config["UPLOAD_FOLDER"], path=name)
+  
 @views.route('/profile',  methods=['GET', 'POST'])
 @login_required
 def profile():
