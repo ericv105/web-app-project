@@ -2,10 +2,8 @@
 from flask import current_app, Blueprint, render_template, request, redirect, flash, send_from_directory
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from .models import User, Upload
-from . import mongo
+from .models import Upload
 import os
-import sys
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 

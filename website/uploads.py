@@ -1,11 +1,6 @@
-import re
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
-from werkzeug.serving import main
-from werkzeug.wrappers import request as req
 from flask_login import login_required, current_user
-from .models import User
 import os
-import sys
 from .models import Upload
 
 """

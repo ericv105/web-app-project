@@ -2,11 +2,31 @@
 {% block title %}Direct Messages{% endblock %}
 
 {% block content %}
+<!-- <h1 id="{{user.username}}"></h1> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+    var socket = io({ query: "user={{ user.username }}" });
+    socket.on('connect', function() {
+        socket.send('lol');
+    });
+
+    socket.on('message', function(data) {
+        console.log(data);
+        alert(data)
+    });
+
+    $('form#dm').submit(function(event){
+      socket.emit('dm', {sender: '{{ user.username }}', recipient: $('#username').val(), chat: $('#chat').val()});
+    })
+  });
+</script>
+
 <h1 align="center">Direct Messages</h1>
 <h3>Logged in users:</h3>
 {{USERS}}
 
-<form method="POST">
+<form id="dm" method="POST", action='#'>
     <h3 align="center">Message a user:</h3>
   
     <div class="form-group">
@@ -19,12 +39,12 @@
         placeholder="Enter username"
       />
   
-      <label for="message">Message</label>
+      <label for="chat">Message</label>
       <input
         type="text"
         class="form-control"
-        id="message"
-        name="message"
+        id="chat"
+        name="chat"
         placeholder="Enter message"
       />
     </div>
