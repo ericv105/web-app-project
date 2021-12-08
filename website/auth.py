@@ -65,7 +65,7 @@ def register():
             password = bcrypt.hashpw(
                 password.encode(), bcrypt.gensalt()).decode()
             new_user = User(username=username,
-                            password=password, online=False, avatar_path="static/uploads/default.png").save()
+                            password=password, online=False, avatar_path="static/avatars/default.png").save()
             flash('Successfully registered!', category='success')
             return redirect('/login')
     return render_template('register.html', user=current_user)

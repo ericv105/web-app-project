@@ -37,8 +37,9 @@ def profile():
         if file.filename == '':
             flash('No selected file', category='error')
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            ext = file.filename.rsplit('.', 1)[1].lower()
+            filename = secure_filename(current_user.username + '.' + ext)
+            file_path = os.path.join(current_app.config['AVATAR_FOLDER'], filename)
             
             current_user.avatar_path = file_path
             current_user.save()
