@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Direct Messages{% endblock %}
+
+{% block content %}
+<h1 align="center">Direct Messages</h1>
+<h3>Logged in users:</h3>
+{{USERS}}
+
+<form method="POST">
+    <h3 align="center">Message a user:</h3>
+  
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        name="username"
+        placeholder="Enter username"
+      />
+  
+      <label for="message">Message</label>
+      <input
+        type="text"
+        class="form-control"
+        id="message"
+        name="message"
+        placeholder="Enter message"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Message</button>
+  </form>
+{% endblock %}
