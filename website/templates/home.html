@@ -36,11 +36,17 @@
 </script>
 
 <h1>Home Page</h1>
+
+<div class="flexbox" style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 10px;">
     {% for upload in uploads %}
-        <img id="{{ upload.filename }}" src="{{ upload.file_path }}">
-        <p id="{{ upload.filename }}_votes">Votes: {{ upload.votes }}</p>
-        <button onclick="sendUpVote('{{ upload.filename }}')">Upvote</button>
-        <button onclick="sendDownVote('{{ upload.filename }}')">Downvote</button>
-        <br>
+        <div class="card" style="width: 18rem; justify-content: center; margin: 50px 0px; background: lightslategray;">
+            <img class="image" id="{{ upload.filename }}" src="{{ upload.file_path }}" style="height: 300px; overflow: hidden; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title" id="{{ upload.filename }}_votes">Votes: {{ upload.votes }}</h5>
+                <button onclick="sendUpVote('{{ upload.filename }}')">👍Upvote</button>
+                <button onclick="sendDownVote('{{ upload.filename }}')">👎Downvote</button>
+            </div>
+        </div>
     {% endfor %}
+</div>
 {% endblock %}
