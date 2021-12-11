@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
+from flask import Blueprint, render_template, request, redirect, current_app, flash
 from flask_login import login_required, current_user
 import os
 from .models import Upload
@@ -64,9 +64,7 @@ def upload():
                     votes=0,
                     file_path=file_path
                 ).save()
-                # print("Saved image: {}".format(filename), file=sys.stderr)
                 print("Saved image: {}".format(filename))
-            return redirect(url_for('views.home'))
-            # return redirect(url_for('views.download_file', name=filename))
+            return redirect('/')
 
     return render_template('upload.html', user=current_user)

@@ -1,5 +1,5 @@
 
-from flask import current_app, Blueprint, render_template, request, redirect, flash, send_from_directory
+from flask import current_app, Blueprint, render_template, request, flash, send_from_directory
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .models import Upload
